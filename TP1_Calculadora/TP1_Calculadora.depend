@@ -1,0 +1,17 @@
+# depslib dependency file v1.0
+1599941823 source:c:\users\flor y gonza\documents\gonza\universidad tecnologica nacional\1 cuatrimestre\laboratorio 1 - programacion 1\tps! (mover a repo git)\tp1_calculadora\main.c
+	<stdio.h>
+	<stdlib.h>
+	<conio.h>
+	<ctype.h>
+	"Calculadora.h"
+
+1599941823 c:\users\flor y gonza\documents\gonza\universidad tecnologica nacional\1 cuatrimestre\laboratorio 1 - programacion 1\tps! (mover a repo git)\tp1_calculadora\calculadora.h
+
+1599940272 source:c:\users\flor y gonza\documents\gonza\universidad tecnologica nacional\1 cuatrimestre\laboratorio 1 - programacion 1\tps! (mover a repo git)\tp1_calculadora\calculadora.c
+	<stdio.h>
+	<stdlib.h>
+	<conio.h>
+	<ctype.h>
+	"Calculadora.h"
+
