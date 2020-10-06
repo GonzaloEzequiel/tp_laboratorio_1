@@ -1,0 +1,14 @@
+# depslib dependency file v1.0
+1601950481 source:c:\users\flor y gonza\documents\gonza\universidad tecnologica nacional\1 cuatrimestre\laboratorio 1 - programacion 1\tp_laboratorio_1\tp2_employees\main.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	<ctype.h>
+	<limits.h>
+	<conio.h>
+	"ArrayEmployees.h"
+
+1601950303 c:\users\flor y gonza\documents\gonza\universidad tecnologica nacional\1 cuatrimestre\laboratorio 1 - programacion 1\tp_laboratorio_1\tp2_employees\arrayemployees.h
+
+1601950129 c:\users\flor y gonza\documents\gonza\universidad tecnologica nacional\1 cuatrimestre\laboratorio 1 - programacion 1\tp_laboratorio_1\tp2_employees\auxemployees.h
+
