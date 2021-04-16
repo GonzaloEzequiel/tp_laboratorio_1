@@ -1,0 +1,10 @@
+Los programas contienen funciones tales:
+
+	system("cls");
+	system("pause);
+	getche();
+
+que no funcionan al 100% en la consola de Eclipse IDE,
+más si lo hacen en la shell
+
+\Debug\TP.exe
