@@ -8,17 +8,17 @@
 #include "utn.h"
 
 #define msg00 "//      TO MANY RETRIES, ABORTED OPERATION      //"
-#define msg01 "//       EMPLOYEES SUCCESFULLY INITIALIZED      //"
-#define msg02 "//        EMPLOYEE SUCCESFULY REGISTRATED       //"
-#define msg03 "//         EMPLOYEE SUCCESFULY MODIFIED         //"
-//#define msg04 ""
+#define msg01 "//      EMPLOYEES SUCCESSFULLY INITIALIZED      //"
+#define msg02 "//      EMPLOYEE SUCCESSFULLY REGISTRATED       //"
+#define msg03 "//        EMPLOYEE SUCCESSFULLY MODIFIED        //"
+#define msg04 "//          VALUE SUCCESFULLY MODIFIED          //"
 //#define msg05 ""
 
 #define err00 "//  UNEXPECTED ERROR, CONTACT YOUR SYS. ADMIN   //"
-#define err01 "//         ERROR INITIALIZING EMPLOYEES         //"
-#define err02 "//      ERROR WHEN REGISTERING NEW EMPLOYEE     //"
+#define err01 "//      ERROR WHILE INITIALIZING EMPLOYEES      //"
+#define err02 "//     ERROR WHILE REGISTERING NEW EMPLOYEE     //"
 #define err03 "//        ERROR WHILE MODIFYING EMPLOYEE        //"
-//#define err04 ""
+#define err04 "//            VALUE WAS NOT MODIFIED            //"
 //#define err05 ""
 
 #define CANT 1000
@@ -53,6 +53,7 @@ void interfaz()
 	{
 		showMessage(err01);
 	}
+	printf("\n");
 	system("pause");
 
 
@@ -68,11 +69,7 @@ void interfaz()
 
 				system("cls");
 
-				printf("//////////////////////////////////////////////////\n");
-				printf("//                                              //\n");
-				printf("//                 NEW EMPLOYEE                 //\n");
-				printf("//                                              //\n");
-				printf("//////////////////////////////////////////////////\n");
+				showMessage("//                 NEW EMPLOYEE                 //");
 				printf("//                                              //\n");
 				printf("//  ASSIGNED ID: %d                       //\n", nextId);
 
@@ -81,6 +78,7 @@ void interfaz()
 				if( utn_getName(aux.name, 51, "//                                              //\n//  ENTER NAME: ", "\n//           INVALID CHARACTER, RETRY           //\n", 2) )
 				{
 					showMessage(msg00);
+					printf("\n");
 					system("pause");
 					break;
 				}
@@ -88,14 +86,16 @@ void interfaz()
 				if( utn_getName(aux.lastName, 51, "//                                              //\n//  ENTER LASTNAME: ", "\n//           INVALID CHARACTER, RETRY           //\n", 2) )
 				{
 					showMessage(msg00);
+					printf("\n");
 					system("pause");
 					break;
 				}
 
 				// minimum wage in Argentina 05/2021 = $21600
-				if( utn_getFloat(&aux.salary, "//                                              //\n//  ENTER SALARY ( min $21600 ): $", "//\n//          ERROR ENTERING SALARY, RETRY        //\n", 21600, 5000000, 2) )
+				if( utn_getFloat(&aux.salary, "//                                              //\n//  ENTER SALARY ( min $21600 ): $ ", "//\n//          ERROR ENTERING SALARY, RETRY        //\n", 21600, 5000000, 2) )
 				{
 					showMessage(msg00);
+					printf("\n");
 					system("pause");
 					break;
 				}
@@ -103,6 +103,7 @@ void interfaz()
 				if( utn_getInteger(&aux.sector, "//                                              //\n//  ENTER SECTOR ( 100 ~ 900 ): ", "//\n//          ERROR ENTERING SECTOR, RETRY        //\n", 100, 900, 2) )
 				{
 					showMessage(msg00);
+					printf("\n");
 					system("pause");
 					break;
 				}
@@ -118,6 +119,7 @@ void interfaz()
 					showMessage(err02);
 				}
 
+				printf("\n");
 				system("pause");
 				break;
 
@@ -127,11 +129,7 @@ void interfaz()
 				{
 					system("cls");
 
-					printf("//////////////////////////////////////////////////\n");
-					printf("//                                              //\n");
-					printf("//               MODIFY EMPLOYEE                //\n");
-					printf("//                                              //\n");
-					printf("//////////////////////////////////////////////////\n");
+					showMessage("//               MODIFY EMPLOYEE                //");
 
 					utn_getInteger(&aux.id, "//                                                \n//  ENTER EMPLOYEE ID: ", "//\n//    ID MUST BE BETWEEN 20210001 - 20211000    //\n", 20210001, 20211000, 2);
 
@@ -139,145 +137,183 @@ void interfaz()
 
 					if( auxIndex != -1 )
 					{
-						printf("//    MATCHING EMPLOYEE:                          \n");
-						printf("//                                                \n");
-						printf("//      ID               NAME             LASTNAME              SALARY        SECTOR 	   \n");
-						printf("//  -----------------------------------------------------------------------------------    \n");
-
-						showEmployee(list);
-
-						printf("//                                                \n");
-						printf("//                                                \n");
-
-						modifyMenu(&option);
-
-						switch(option)
+						do
 						{
-							case 1:
-								showMessage("//             MODIFY EMPLOYEE NAME             //\n");
-								printf("//                                              //\n");
-								printf("//  CURRENT VALUE: %s                              \n", list[auxIndex].name);
+							printf("//    MATCHING EMPLOYEE:                          \n");
+							printf("//                                                \n");
+							printf("//      ID               NAME             LASTNAME              SALARY        SECTOR 	   \n");
+							printf("//  -----------------------------------------------------------------------------------    \n");
 
-								if( utn_getName(aux.name, 51, "//                                              //\n//  ENTER NAME: ", "\n//           INVALID CHARACTER, RETRY           //\n", 2) )
-								{
-									showMessage(msg00);
-									system("pause");
+							showEmployee(list);
+
+							printf("//                                                \n");
+							printf("//                                                \n");
+
+							modifyMenu(&option);
+
+							switch(option)
+							{
+								case 1:
+									showMessage("//             MODIFY EMPLOYEE NAME             //");
+									printf("//                                              //\n");
+									printf("//  CURRENT VALUE: %s                              \n", list[auxIndex].name);
+
+									if( utn_getName(aux.name, 51, "//                                              //\n//  ENTER NAME: ", "\n//           INVALID CHARACTER, RETRY           //\n", 2) )
+									{
+										showMessage(msg00);
+										printf("\n");
+										system("pause");
+										break;
+									}
+
+									printf("//                                              //\n");
+									printf("//  REPLACE \"%s\" WITH \"%s\" ?\n", list[auxIndex].name, aux.name);
+									printf("//                                              //\n");
+									printf("//  CONFIRM?   Y/N   ");
+									fflush(stdin);
+									scanf("%c", &confirm);
+									confirm = toupper(confirm);
+									if(confirm == 'Y')
+									{
+										strcpy(list[auxIndex].name, aux.name);
+										showMessage(msg04);
+									}
+									else
+									{
+										showMessage(err04);
+									}
+
 									break;
-								}
 
-								printf("//                                              //\n");
-								printf("// REPLACE %s WITH %s ?", list[auxIndex].name, aux.name);
-								printf("//                                              //\n");
-								printf("//  CONFIRM?   Y/N   ");
-								fflush(stdin);
-								scanf("%c", &confirm);
-								confirm = toupper(confirm);
-								if(confirm == 'Y')
-								{
-									strcpy(list[auxIndex].name, aux.name);
-								}
+								case 2:
+									showMessage("//           MODIFY EMPLOYEE LASTNAME           //");
+									printf("//                                              //\n");
+									printf("//  CURRENT VALUE: %s                              \n", list[auxIndex].lastName);
 
+									if( utn_getName(aux.lastName, 51, "//                                              //\n//  ENTER LASTNAME: ", "\n//           INVALID CHARACTER, RETRY           //\n", 2) )
+									{
+										showMessage(msg00);
+										printf("\n");
+										system("pause");
+										break;
+									}
 
-								break;
+									printf("//                                              //\n");
+									printf("//  REPLACE \"%s\" WITH \"%s\" ?\n", list[auxIndex].lastName, aux.lastName);
+									printf("//                                              //\n");
+									printf("//  CONFIRM?   Y/N   ");
+									fflush(stdin);
+									scanf("%c", &confirm);
+									confirm = toupper(confirm);
+									if(confirm == 'Y')
+									{
+										strcpy(list[auxIndex].lastName, aux.lastName);
+										showMessage(msg04);
+									}
+									else
+									{
+										showMessage(err04);
+									}
 
-							case 2:
-								showMessage("//           MODIFY EMPLOYEE LASTNAME           //\n");
-								printf("//                                              //\n");
-								printf("//  CURRENT VALUE: %s                              \n", list[auxIndex].lastName);
-
-								if( utn_getName(aux.lastName, 51, "//                                              //\n//  ENTER LASTNAME: ", "\n//           INVALID CHARACTER, RETRY           //\n", 2) )
-								{
-									showMessage(msg00);
-									system("pause");
 									break;
-								}
 
-								printf("//                                              //\n");
-								printf("// REPLACE %s WITH %s ?", list[auxIndex].lastName, aux.lastName);
-								printf("//                                              //\n");
-								printf("//  CONFIRM?   Y/N   ");
-								fflush(stdin);
-								scanf("%c", &confirm);
-								confirm = toupper(confirm);
-								if(confirm == 'Y')
-								{
-									strcpy(list[auxIndex].lastName, aux.lastName);
-								}
+								case 3:
+									showMessage("//            MODIFY EMPLOYEE SALARY            //");
+									printf("//                                              //\n");
+									printf("//  CURRENT VALUE: $ %.2f                              \n", list[auxIndex].salary);
 
-								break;
+									if( utn_getFloat(&aux.salary, "//                                              //\n//  ENTER SALARY ( min $21600 ): $ ", "//\n//          ERROR ENTERING SALARY, RETRY        //\n", 21600, 5000000, 2) )
+									{
+										showMessage(msg00);
+										printf("\n");
+										system("pause");
+										break;
+									}
 
-							case 3:
-								showMessage("//            MODIFY EMPLOYEE SALARY            //\n");
-								printf("//                                              //\n");
-								printf("//  CURRENT VALUE: %.2f                              \n", list[auxIndex].salary);
+									printf("//                                              //\n");
+									printf("//  REPLACE \"$ %.2f\" WITH \"$ %.2f\" ?\n", list[auxIndex].salary, aux.salary);
+									printf("//                                              //\n");
+									printf("//  CONFIRM?   Y/N   ");
+									fflush(stdin);
+									scanf("%c", &confirm);
+									confirm = toupper(confirm);
+									if(confirm == 'Y')
+									{
+										list[auxIndex].salary = aux.salary;
+										showMessage(msg04);
+									}
+									else
+									{
+										showMessage(err04);
+									}
 
-								if( utn_getFloat(&aux.salary, "//                                              //\n//  ENTER SALARY ( min $21600 ): $", "//\n//          ERROR ENTERING SALARY, RETRY        //\n", 21600, 5000000, 2) )
-								{
-									showMessage(msg00);
-									system("pause");
 									break;
-								}
 
-								printf("//                                              //\n");
-								printf("// REPLACE %.2f WITH %.2f ?", list[auxIndex].salary, aux.salary);
-								printf("//                                              //\n");
-								printf("//  CONFIRM?   Y/N   ");
-								fflush(stdin);
-								scanf("%c", &confirm);
-								confirm = toupper(confirm);
-								if(confirm == 'Y')
-								{
-									list[auxIndex].salary = aux.salary;
-								}
+								case 4:
+									showMessage("//            MODIFY EMPLOYEE SECTOR            //");
+									printf("//                                              //\n");
+									printf("//  CURRENT VALUE: %d                              \n", list[auxIndex].sector);
 
-								break;
+									if( utn_getInteger(&aux.sector, "//                                              //\n//  ENTER SECTOR ( 100 ~ 900 ): ", "//\n//          ERROR ENTERING SECTOR, RETRY        //\n", 100, 900, 2) )
+									{
+										showMessage(msg00);
+										printf("\n");
+										system("pause");
+										break;
+									}
 
-							case 4:
-								showMessage("//            MODIFY EMPLOYEE SECTOR            //\n");
-								printf("//                                              //\n");
-								printf("//  CURRENT VALUE: %d                              \n", list[auxIndex].sector);
+									printf("//                                              //\n");
+									printf("//  REPLACE \"%.d\" WITH \"%d\" ?\n", list[auxIndex].sector, aux.sector);
+									printf("//                                              //\n");
+									printf("//  CONFIRM?   Y/N   ");
+									fflush(stdin);
+									scanf("%c", &confirm);
+									confirm = toupper(confirm);
+									if(confirm == 'Y')
+									{
+										list[auxIndex].sector = aux.sector;
+										showMessage(msg04);
+									}
+									else
+									{
+										showMessage(err04);
+									}
 
-								if( utn_getInteger(&aux.sector, "//                                              //\n//  ENTER SECTOR ( 100 ~ 900 ): ", "//\n//          ERROR ENTERING SECTOR, RETRY        //\n", 100, 900, 2) )
-								{
-									showMessage(msg00);
-									system("pause");
 									break;
-								}
 
-								printf("//                                              //\n");
-								printf("// REPLACE %.d WITH %d ?", list[auxIndex].sector, aux.sector);
-								printf("//                                              //\n");
-								printf("//  CONFIRM?   Y/N   ");
-								fflush(stdin);
-								scanf("%c", &confirm);
-								confirm = toupper(confirm);
-								if(confirm == 'Y')
-								{
-									list[auxIndex].sector = aux.sector;
-								}
+								case 0:
+									printf("//                                              //\n");
+									printf("//////////////////////////////////////////////////\n");
+									printf("//                                              //\n");
+									printf("//  BACK TO MAIN MENU? Y/N   ");
+									fflush(stdin);
+									scanf("%c", &exit);
+									exit = toupper(exit);
+									break;
 
-								break;
+								default:
+									break;
+							}
 
-							default:
-								break;
-						}
+						}while(exit != 'Y');
 
-
+						exit = 'N';
+						break;
 					}
 					else
 					{
 						showMessage("//            NO MATCHING EMPLOYEES             //");
 					}
-
 				}
-
 				else
 				{
 					showMessage("//      THERE ARE NO REGISTERED EMPLOYEES       //");
 				}
 
+				printf("\n");
 				system("pause");
 				break;
+
 
 			case 3:
 				printf("ESTA ES LA OPCION 3");
@@ -293,6 +329,8 @@ void interfaz()
 				break;
 
 			case 0:
+				printf("//                                              //\n");
+				printf("//////////////////////////////////////////////////\n");
 				printf("//                                              //\n");
 				printf("//  CONFIRM TO EXIT? Y/N   ");
 				fflush(stdin);
@@ -333,6 +371,7 @@ int mainMenu(int* option)
 		if ( utn_getInteger(option, "//                                              //\n//  SELECT AN OPTION : ", "//\n//             INVALID OPTION, RETRY            //\n", 0, 4, 2) )
 		{
 			showMessage(err00);
+			*option = 0;
 		}
 		else
 		{
@@ -386,5 +425,5 @@ void showMessage(const char message[])
 	printf("//                                              //\n");
 	puts(message);
 	printf("//                                              //\n");
-	printf("//////////////////////////////////////////////////\n\n");
+	printf("//////////////////////////////////////////////////\n");
 }

@@ -14,8 +14,9 @@
 int utn_getInteger(int* num, char mensaje[], char mensajeError[], int minimo, int maximo, int reintentos)
 {
 	int error = -1;
-	char bufferStr[10];
 	int aux;
+	int clear;
+	char bufferStr[10];
 
 	if(num != NULL && mensaje != NULL && mensajeError != NULL && minimo <= maximo && reintentos >= 0)
 	{
@@ -25,28 +26,34 @@ int utn_getInteger(int* num, char mensaje[], char mensajeError[], int minimo, in
 			fflush(stdin);
 			gets(bufferStr);
 
+			clear = 1;
+
 			for(int i=0; i<strlen(bufferStr); i++)
 		    {
 		        if( bufferStr[i] < 48 || bufferStr[i] > 57 )
 		        {
 		        	printf("%s",mensajeError);
 		        	reintentos--;
+		        	clear = 0;
 		        	break;
 		        }
 		    }
 
-		    aux = atoi(bufferStr);
-
-        	if(aux >= minimo && aux <= maximo)
-        	{
-	        	*num = aux;
-	        	error = 0;
-	        	break;
-        	}
-        	else
+			if(clear)
 			{
-        		printf("%s",mensajeError);
-				reintentos--;
+				aux = atoi(bufferStr);
+
+				if(aux >= minimo && aux <= maximo)
+				{
+					*num = aux;
+					error = 0;
+					break;
+				}
+				else
+				{
+					printf("%s",mensajeError);
+					reintentos--;
+				}
 			}
 
 		}while(reintentos>=0);
@@ -61,7 +68,8 @@ int utn_getInteger(int* num, char mensaje[], char mensajeError[], int minimo, in
 int utn_getFloat(float* num, char mensaje[], char mensajeError[], int minimo, int maximo, int reintentos)
 {
 	int error = -1;
-	int decimal = 0;
+	int decimal;
+	int clear;
 	char bufferStr[10];
 	float aux;
 
@@ -73,33 +81,40 @@ int utn_getFloat(float* num, char mensaje[], char mensajeError[], int minimo, in
 			fflush(stdin);
 			gets(bufferStr);
 
+			decimal = 0;
+			clear = 1;
+
 			for(int i=0; i<strlen(bufferStr); i++)
 		    {
-		        if( ( ( bufferStr[i] < 48 || bufferStr[i] > 57 ) && bufferStr[i] != '.' ) || decimal > 1 )
+		        if( (bufferStr[i] < 48 && bufferStr[i] != 46) || bufferStr[i] > 57 || decimal > 1 )
 		        {
 		        	printf("%s",mensajeError);
 		        	reintentos--;
+		        	clear = 0;
 		        	break;
 		        }
-		        else if(bufferStr[i] == '.' )
+		        else if(bufferStr[i] == 46)
 			    {
 			        decimal++;
 			    }
 		    }
 
-		    aux = atoi(bufferStr);
+		    if(clear)
+		    {
+			    aux = atof(bufferStr);
 
-        	if(aux >= minimo && aux <= maximo)
-        	{
-	        	*num = aux;
-	        	error = 0;
-				break;
-        	}
-        	else
-			{
-        		printf("%s", mensajeError);
-				reintentos--;
-			}
+	        	if(aux >= minimo && aux <= maximo)
+	        	{
+		        	*num = aux;
+		        	error = 0;
+					break;
+	        	}
+	        	else
+				{
+	        		printf("%s", mensajeError);
+					reintentos--;
+				}
+		    }
 
 		}while(reintentos>=0);
 	}
@@ -141,11 +156,19 @@ int utn_getCharacter(char* pResultado, char* mensaje, char* mensajeError, char m
 	return retorno;
 }
 
+
+// Puntero y validación
+
+
+
+
+// Cadena de caracteres y validacion
+
 int utn_getName(char* vec, int size, char* mensaje, char* mensajeError, int reintentos)
 {
 	int error = -1;
 	int clear;
-	char bufferStr[50];
+	char bufferStr[size];
 
 	if(vec != NULL && size > 0 && mensaje != NULL && mensajeError != NULL && reintentos >= 0)
 	{
@@ -159,7 +182,7 @@ int utn_getName(char* vec, int size, char* mensaje, char* mensajeError, int rein
 
 			for(int i=0; i<strlen(bufferStr); i++)
 			{
-				if( bufferStr[i] < 65 || (bufferStr[i] > 90 && bufferStr[i] < 97) || bufferStr[i] > 122 )
+				if( ( bufferStr[i] < 65 && bufferStr[i] != 32 ) || (bufferStr[i] > 90 && bufferStr[i] < 97) || bufferStr[i] > 122 )
 				{
 					printf("//  ERROR WITH %c %s", bufferStr[i], mensajeError);
 					reintentos--;

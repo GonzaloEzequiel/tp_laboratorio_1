@@ -94,6 +94,7 @@ int printEmployees(Employee* list, int length);
 
 int openSlot(Employee* list, int* index, int len);
 
+
 void showEmployee(Employee* list);
 
 
