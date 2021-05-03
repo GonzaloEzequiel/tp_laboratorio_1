@@ -95,7 +95,7 @@ int printEmployees(Employee* list, int length);
 int openSlot(Employee* list, int* index, int len);
 
 
-void showEmployee(Employee* list);
+void showEmployee(Employee emp);
 
 
 void swap(Employee* list, int a, int b);

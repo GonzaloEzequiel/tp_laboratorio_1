@@ -101,6 +101,7 @@ int removeEmployee(Employee* list, int len, int id)
 
 int sortEmployees(Employee* list, int len, int order)
 {
+	/*
     int error = -1;
 
     if( list != NULL && len > 0)
@@ -167,13 +168,15 @@ int sortEmployees(Employee* list, int len, int order)
             break;
         }
     }
+    */
 
-    return error;
+    return 0;
 }
 
 
 int printEmployees(Employee* list, int length)
 {
+	/*
     int flag = 0;
 
     printf("   ID             NAME              LASTNAME              SALARY        SECTOR 		    \n");
@@ -183,7 +186,7 @@ int printEmployees(Employee* list, int length)
     {
         if(!list[i].isEmpty)
         {
-            showEmployee(&list[i]);
+            showEmployee(list[i]);
             flag = 1;
         }
     }
@@ -196,6 +199,7 @@ int printEmployees(Employee* list, int length)
 
     printf("\n\n");
 
+    */
     return 0;
 }
 
@@ -234,6 +238,8 @@ void swap(Employee* list, int a, int b)
     list[b].isEmpty = auxInt;
 }
 
+
+
 int openSlot(Employee* list, int* index, int len)
 {
     int error = -1;
@@ -251,7 +257,7 @@ int openSlot(Employee* list, int* index, int len)
     return error;
 }
 
-void showEmployee(Employee* list)
+void showEmployee(Employee emp)
 {
-    printf("//   %8d %20s %20s        %6.2f        %4d\n", list->id, list->name, list->lastName, list->salary, list->sector);
+    printf("//   %8d %20s %20s        %6.2f        %4d\n", emp.id, emp.name, emp.lastName, emp.salary, emp.sector);
 }

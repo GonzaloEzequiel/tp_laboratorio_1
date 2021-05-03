@@ -25,6 +25,8 @@ int mainMenu(int* option);
 
 int modifyMenu(int* option);
 
+int withdrawMenu(int* option);
+
 void showMessage(const char message[]);
 
 #endif /* INTERFAZ_H_ */

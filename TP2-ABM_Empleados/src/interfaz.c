@@ -12,14 +12,14 @@
 #define msg02 "//      EMPLOYEE SUCCESSFULLY REGISTRATED       //"
 #define msg03 "//        EMPLOYEE SUCCESSFULLY MODIFIED        //"
 #define msg04 "//          VALUE SUCCESFULLY MODIFIED          //"
-//#define msg05 ""
+#define msg05 "//        EMPLOYEE SUCCESSFULLY WITHDRAWN       //"
 
 #define err00 "//  UNEXPECTED ERROR, CONTACT YOUR SYS. ADMIN   //"
 #define err01 "//      ERROR WHILE INITIALIZING EMPLOYEES      //"
 #define err02 "//     ERROR WHILE REGISTERING NEW EMPLOYEE     //"
 #define err03 "//        ERROR WHILE MODIFYING EMPLOYEE        //"
 #define err04 "//            VALUE WAS NOT MODIFIED            //"
-//#define err05 ""
+#define err05 "//         EMPLOYEE WITHDRAWAL CANCELLED        //"
 
 #define CANT 1000
 
@@ -144,7 +144,7 @@ void interfaz()
 							printf("//      ID               NAME             LASTNAME              SALARY        SECTOR 	   \n");
 							printf("//  -----------------------------------------------------------------------------------    \n");
 
-							showEmployee(list);
+							showEmployee(list[auxIndex]);
 
 							printf("//                                                \n");
 							printf("//                                                \n");
@@ -297,8 +297,9 @@ void interfaz()
 
 						}while(exit != 'Y');
 
+						confirm = 'N';
 						exit = 'N';
-						break;
+						//break;
 					}
 					else
 					{
@@ -314,9 +315,46 @@ void interfaz()
 				system("pause");
 				break;
 
+			case 3:		// ------------------------------------------------------- OPTION 3 WITHDRAW EMPLOYEES ------------------------------------------- //
 
-			case 3:
-				printf("ESTA ES LA OPCION 3");
+				if(flagEmployee)
+				{
+					system("cls");
+
+					showMessage("//              WITHDRAW EMPLOYEE               //");
+
+					utn_getInteger(&aux.id, "//                                                \n//  ENTER EMPLOYEE ID: ", "//\n//    ID MUST BE BETWEEN 20210001 - 20211000    //\n", 20210001, 20211000, 2);
+
+					auxIndex = findEmployeeById(list, CANT, aux.id);
+
+					printf("//    MATCHING EMPLOYEE:                          \n");
+					printf("//                                                \n");
+					printf("//      ID               NAME             LASTNAME              SALARY        SECTOR 	   \n");
+					printf("//  -----------------------------------------------------------------------------------    \n");
+
+					showEmployee(list[auxIndex]);
+
+					printf("//                                                \n");
+					printf("//                                                \n");
+
+					withdrawMenu(&option);
+
+					if(option)
+					{
+						removeEmployee(list, CANT, aux.id);
+						showMessage(msg05);
+					}
+					else
+					{
+						showMessage(err05);
+					}
+				}
+				else
+				{
+					showMessage("//      THERE ARE NO REGISTERED EMPLOYEES       //");
+				}
+
+				printf("\n");
 				system("pause");
 				break;
 
@@ -370,7 +408,7 @@ int mainMenu(int* option)
 
 		if ( utn_getInteger(option, "//                                              //\n//  SELECT AN OPTION : ", "//\n//             INVALID OPTION, RETRY            //\n", 0, 4, 2) )
 		{
-			showMessage(err00);
+			showMessage(msg00);
 			*option = 0;
 		}
 		else
@@ -407,7 +445,40 @@ int modifyMenu(int* option)
 
 		if ( utn_getInteger(option, "//                                              //\n//  SELECT AN OPTION : ", "//\n//             INVALID OPTION, RETRY            //\n", 0, 4, 2) )
 		{
-			showMessage(err00);
+			showMessage(msg00);
+			*option = 0;
+		}
+		else
+		{
+			error = 0;
+		}
+	}
+
+	return error;
+}
+
+int withdrawMenu(int* option)
+{
+	int error = -1;
+
+	if(option != NULL)
+	{
+		printf("//////////////////////////////////////////////////\n");
+		printf("//                                              //\n");
+		printf("//               WITHDRAWAL MENU                //\n");
+		printf("//                                              //\n");
+		printf("//////////////////////////////////////////////////\n");
+		printf("//                                              //\n");
+		printf("//    1. CONFIRM EMPLOYEE WITHDRAWAL            //\n");
+		printf("//                                              //\n");
+		printf("//    0. CANCEL / BACK TO MAIN MENU             //\n");
+		printf("//                                              //\n");
+		printf("//////////////////////////////////////////////////\n");
+
+		if ( utn_getInteger(option, "//                                              //\n//  SELECT AN OPTION : ", "//\n//             INVALID OPTION, RETRY            //\n", 0, 1, 2) )
+		{
+			showMessage(msg00);
+			*option = 0;
 		}
 		else
 		{
