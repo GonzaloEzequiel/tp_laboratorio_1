@@ -161,7 +161,6 @@ int utn_getCharacter(char* pResultado, char* mensaje, char* mensajeError, char m
 
 
 
-
 // Cadena de caracteres y validacion
 
 int utn_getName(char* vec, int size, char* mensaje, char* mensajeError, int reintentos)

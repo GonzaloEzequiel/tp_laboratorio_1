@@ -31,7 +31,7 @@ void interfaz()
 	int nextId = 20210001;
 	int flagEmployee = 0;
 	int auxIndex;
-	int avobeAverageSalaries = 0;
+	int aboveAverageSalaries = 0;
 	float totalSalaries = 0;
 	float averageSalary;
 
@@ -59,7 +59,7 @@ void interfaz()
 	//main menu iteration
 	do
 	{
-		if( mainMenu(&option) )
+		if( mainMenu(&option) == -1 )
 		{
 			showMessage(erroR);
 			break;
@@ -73,11 +73,11 @@ void interfaz()
 
 				showMessage("//                 NEW EMPLOYEE                 //");
 				printf("//                                              //\n");
-				printf("//  ASSIGNED ID: %d                       //\n", nextId);
+				printf("//  ASSIGNED ID: %d                       //\n", nextId); //new employee id
 
 				aux.id = nextId;
 
-				if( utn_getName(aux.name, 51, "//                                              //\n//  ENTER NAME: ", "\n//           INVALID CHARACTER, RETRY           //\n", 2) )
+				if( utn_getName(aux.name, 51, "//                                              //\n//  ENTER NAME: ", "\n//           INVALID CHARACTER, RETRY           //\n", 2) ) //new employee name
 				{
 					showMessage(msg00);
 					printf("\n");
@@ -85,7 +85,7 @@ void interfaz()
 					break;
 				}
 
-				if( utn_getName(aux.lastName, 51, "//                                              //\n//  ENTER LASTNAME: ", "\n//           INVALID CHARACTER, RETRY           //\n", 2) )
+				if( utn_getName(aux.lastName, 51, "//                                              //\n//  ENTER LASTNAME: ", "\n//           INVALID CHARACTER, RETRY           //\n", 2) ) //new employee lastname
 				{
 					showMessage(msg00);
 					printf("\n");
@@ -93,7 +93,7 @@ void interfaz()
 					break;
 				}
 
-				// minimum wage in Argentina 05/2021 = $21600
+				// new employee salary ; minimum wage in Argentina 05/2021 = $21600
 				if( utn_getFloat(&aux.salary, "//                                              //\n//  ENTER SALARY ( min $21600 ): $ ", "//\n//          ERROR ENTERING SALARY, RETRY        //\n", 21600, 5000000, 2) )
 				{
 					showMessage(msg00);
@@ -102,7 +102,7 @@ void interfaz()
 					break;
 				}
 
-				if( utn_getInteger(&aux.sector, "//                                              //\n//  ENTER SECTOR ( 100 ~ 900 ): ", "//\n//          ERROR ENTERING SECTOR, RETRY        //\n", 100, 900, 2) )
+				if( utn_getInteger(&aux.sector, "//                                              //\n//  ENTER SECTOR ( 100 ~ 900 ): ", "//\n//          ERROR ENTERING SECTOR, RETRY        //\n", 100, 900, 2) ) //new employee sector
 				{
 					showMessage(msg00);
 					printf("\n");
@@ -133,6 +133,7 @@ void interfaz()
 
 					showMessage("//               MODIFY EMPLOYEE                //");
 
+					//fetch employee id
 					if( utn_getInteger(&aux.id, "//                                                \n//  ENTER EMPLOYEE ID: ", "//\n//    ID MUST BE BETWEEN 20210001 - 20211000    //\n", 20210001, 20211000, 2) )
 					{
 						showMessage(msg00);
@@ -141,6 +142,7 @@ void interfaz()
 						break;
 					}
 
+					//set array index by finding empoyee by id
 					auxIndex = findEmployeeById(list, CANT, aux.id);
 
 					if( auxIndex != -1 )
@@ -157,7 +159,7 @@ void interfaz()
 							printf("//                                                \n");
 							printf("//                                                \n");
 
-							if( modifyMenu(&option) )
+							if( modifyMenu(&option) == -1 ) //SUBMENU FIELD TO MODIFY
 							{
 								showMessage(erroR);
 								break;
@@ -165,7 +167,7 @@ void interfaz()
 
 							switch(option)
 							{
-								case 1:
+								case 1:		// ------------------------------ SUBMENU OPTION 1 NAME ------------------------------ //
 									showMessage("//             MODIFY EMPLOYEE NAME             //");
 									printf("//                                              //\n");
 									printf("//  CURRENT VALUE: %s                              \n", list[auxIndex].name);
@@ -197,7 +199,7 @@ void interfaz()
 
 									break;
 
-								case 2:
+								case 2:		// ------------------------------ SUBMENU OPTION 2 LASTNAME ------------------------------ //
 									showMessage("//           MODIFY EMPLOYEE LASTNAME           //");
 									printf("//                                              //\n");
 									printf("//  CURRENT VALUE: %s                              \n", list[auxIndex].lastName);
@@ -228,7 +230,7 @@ void interfaz()
 
 									break;
 
-								case 3:
+								case 3: 	// ------------------------------ SUBMENU OPTION 3 SALARY ------------------------------ //
 									showMessage("//            MODIFY EMPLOYEE SALARY            //");
 									printf("//                                              //\n");
 									printf("//  CURRENT VALUE: $ %.2f                              \n", list[auxIndex].salary);
@@ -260,7 +262,7 @@ void interfaz()
 
 									break;
 
-								case 4:
+								case 4:		// ------------------------------ SUBMENU OPTION 4 SECTOR ------------------------------ //
 									showMessage("//            MODIFY EMPLOYEE SECTOR            //");
 									printf("//                                              //\n");
 									printf("//  CURRENT VALUE: %d                              \n", list[auxIndex].sector);
@@ -292,7 +294,7 @@ void interfaz()
 
 									break;
 
-								case 0:
+								case 0:		// ------------------------------ SUBMENU OPTION 0 EXIT ------------------------------ //
 									printf("//                                              //\n");
 									printf("//////////////////////////////////////////////////\n");
 									printf("//                                              //\n");
@@ -310,7 +312,7 @@ void interfaz()
 
 						confirm = 'N';
 						exit = 'N';
-						//break;
+
 					}
 					else
 					{
@@ -334,6 +336,7 @@ void interfaz()
 
 					showMessage("//              WITHDRAW EMPLOYEE               //");
 
+					//fetch employee id
 					if( utn_getInteger(&aux.id, "//                                                \n//  ENTER EMPLOYEE ID: ", "//\n//         ID MUST BE 20210001 OR HIGER         //\n", 20210001, 30000000, 2) )
 					{
 						showMessage(msg00);
@@ -342,6 +345,7 @@ void interfaz()
 						break;
 					}
 
+					//set array index by finding empoyee by id
 					auxIndex = findEmployeeById(list, CANT, aux.id);
 
 					if(auxIndex != -1)
@@ -356,17 +360,17 @@ void interfaz()
 						printf("//                                                \n");
 						printf("//                                                \n");
 
-						if( withdrawMenu(&option) )
+						if( withdrawMenu(&option) == -1 )//SUBMENU EMPLOYEE REMOVAL
 						{
 							showMessage(erroR);
 							break;
 						}
 
-						if( option && !removeEmployee(list, CANT, aux.id) )
+						if( option && !removeEmployee(list, CANT, aux.id) )		// ------- SUBMENU OPTION 1 REMOVE ------- //
 						{
 							showMessage(msg05);
 						}
-						else
+						else		// ------------------------------ SUBMENU OPTION 0 EXIT ------------------------------ //
 						{
 							showMessage(err05);
 						}
@@ -393,7 +397,7 @@ void interfaz()
 					{
 						system("cls");
 
-						if( sortMenu(&option) )
+						if( sortMenu(&option) == -1 ) //SUBMENU SORT & PRINT
 						{
 							showMessage(erroR);
 							break;
@@ -402,14 +406,6 @@ void interfaz()
 						switch(option)
 						{
 							case 1:
-
-								if( printEmployees(list, CANT) )
-								{
-									showMessage("//       ERROR WHILE DISPLAYING EMPLOYEES       //");
-								}
-
-								break;
-
 							case 2:
 							case 3:
 							case 4:
@@ -427,7 +423,7 @@ void interfaz()
 
 								break;
 
-							case 0:
+							case 0:		// ------------------------------ SUBMENU OPTION 0 EXIT ------------------------------- //
 								printf("//                                              //\n");
 								printf("//////////////////////////////////////////////////\n");
 								printf("//                                              //\n");
@@ -439,26 +435,30 @@ void interfaz()
 								break;
 						}
 
-						if( salaries(list, CANT, &totalSalaries, &averageSalary, &avobeAverageSalaries) )
+						if(option) //if employees was sorted and printed, calculates and shows total and average salaries
 						{
-							showMessage("//        ERROR WHILE DISPLAYING SALARIES       //");
+							if( salaries(list, CANT, &totalSalaries, &averageSalary, &aboveAverageSalaries) )
+							{
+								showMessage("//        ERROR WHILE DISPLAYING SALARIES       //");
+							}
+
+							printf("//                                                \n");
+							printf("//                                              //\n");
+							printf("//////////////////////////////////////////////////\n");
+							printf("//                                              //\n");
+							printf("//  TOTAL SALARIES: $ %.2f\n", totalSalaries);
+							printf("//  AVERAGE SALARY: $ %.2f\n", averageSalary);
+							printf("//  EMPLOYEES ABOVE AVERAGE SALARY: %d\n", aboveAverageSalaries);
+							printf("//                                              //\n");
+							printf("//////////////////////////////////////////////////\n");
+
+							aboveAverageSalaries = 0;
+							totalSalaries = 0;
+
+							printf("\n");
+							system("pause");
+
 						}
-
-						printf("//                                                \n");
-						printf("//                                              //\n");
-						printf("//////////////////////////////////////////////////\n");
-						printf("//                                              //\n");
-						printf("//  TOTAL SALARIES: $ %.2f\n", totalSalaries);
-						printf("//  AVERAGE SALARY: $ %.2f\n", averageSalary);
-						printf("//  EMPLOYEES AVOBE AVERAGE SALARY: %d\n", avobeAverageSalaries);
-						printf("//                                              //\n");
-						printf("//////////////////////////////////////////////////\n");
-
-						avobeAverageSalaries = 0;
-						totalSalaries = 0;
-
-						printf("\n");
-						system("pause");
 
 					}while(exit != 'Y');
 
@@ -470,7 +470,7 @@ void interfaz()
 				}
 
 				printf("\n");
-				//system("pause");
+				system("pause");
 				break;
 
 			case 0:		// ---------------------------------------------------------- OPTION 0 EXIT --------------------------------------------------------- //
@@ -547,7 +547,7 @@ int modifyMenu(int* option)
 		printf("//    3. EMPLOYEE SALARY                        //\n");
 		printf("//    4. EMPLOYEE SECTOR                        //\n");
 		printf("//                                              //\n");
-		printf("//    0. EXIT                                   //\n");
+		printf("//    0. CANCEL / BACK TO MAIN MENU             //\n");
 		printf("//                                              //\n");
 		printf("//////////////////////////////////////////////////\n");
 

@@ -104,6 +104,19 @@ int sortEmployees(Employee* list, int len, int order)
     {
     	switch(order)
 		{
+    		case 1:
+    		for (int i=0; i<len-1; i++)
+			{
+				for(int j=i+1; j<len; j++)
+				{
+					if(list[i].id > list[j].id)
+					{
+						swap2(list, i, j);
+					}
+				}
+			}
+    			break;
+
 			case 2:
 				for (int i=0; i<len-1; i++)
 				{
@@ -191,6 +204,35 @@ int printEmployees(Employee* list, int length)
     return error;
 }
 
+// DE CREACION PERSONAL, UTILIZAN LA ESTRUCTURA EMPLOYEE //
+
+int openSlot(Employee* list, int* index, int len)
+{
+    int error = -1;
+
+    if(list != NULL && index != NULL && len > 0)
+    {
+    	for(int i=0; i<len; i++)
+		{
+			if (list[i].isEmpty)
+			{
+				*index = i;  //FREE INDEX
+				error = 0;
+				break;
+			}
+		}
+    }
+
+    return error;
+}
+
+
+void showEmployee(Employee emp)
+{
+    printf("//   %8d %20s %20s        %7.2f        %4d\n", emp.id, emp.name, emp.lastName, emp.salary, emp.sector);
+}
+
+
 int salaries(Employee* list, int size, float* total, float* average, int* avobeAverage)
 {
     int error = -1;
@@ -226,38 +268,6 @@ int salaries(Employee* list, int size, float* total, float* average, int* avobeA
     return error;
 }
 
-void swap(Employee* list, int a, int b)
-{
-    int auxInt;
-    float auxFloat;
-    char auxString[51];
-
-    strcpy(auxString, list[a].lastName);
-    strcpy(list[a].lastName, list[b].lastName);
-    strcpy(list[b].lastName, auxString);
-
-    strcpy(auxString, list[a].name);
-    strcpy(list[a].name, list[b].name);
-    strcpy(list[b].name, auxString);
-
-    auxInt = list[a].id;
-    list[a].id = list[b].id;
-    list[b].id = auxInt;
-
-    auxFloat = list[a].salary;
-    list[a].salary = list[b].salary;
-    list[b].salary = auxFloat;
-
-    auxInt = list[a].sector;
-    list[a].sector = list[b].sector;
-    list[b].sector = auxInt;
-
-    auxInt = list[a].isEmpty;
-    list[a].isEmpty = list[b].isEmpty;
-    list[b].isEmpty = auxInt;
-}
-
-
 void swap2(Employee* list, int a, int b)
 {
 	Employee aux;
@@ -265,27 +275,4 @@ void swap2(Employee* list, int a, int b)
 	aux = list[a];
 	list[a] = list[b];
 	list[b] = aux;
-}
-
-
-int openSlot(Employee* list, int* index, int len)
-{
-    int error = -1;
-
-    for(int i=0; i<len; i++)
-    {
-        if (list[i].isEmpty)
-        {
-            *index = i;  //FREE INDEX
-            error = 0;
-            break;
-        }
-    }
-
-    return error;
-}
-
-void showEmployee(Employee emp)
-{
-    printf("//   %8d %20s %20s        %6.2f        %4d\n", emp.id, emp.name, emp.lastName, emp.salary, emp.sector);
 }
