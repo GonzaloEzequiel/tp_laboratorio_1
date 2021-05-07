@@ -33,10 +33,8 @@ int addEmployee(Employee* list, int len, int id, char name[], char lastName[], f
     Employee newEmployee;
 
     if(list != NULL && len > 0)
-    {
-        openSlot(list, &index, len);
-
-        if (index == -1)
+    {        
+        if ( openSlot(list, &index, len)== -1)
         {
         	printf("//\n//  SYSTEM FULL, NO OPEN SLOT FOR NEW EMPLOYEE  //\n//");
         }

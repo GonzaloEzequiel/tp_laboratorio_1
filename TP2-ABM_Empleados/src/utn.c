@@ -124,7 +124,7 @@ int utn_getFloat(float* num, char mensaje[], char mensajeError[], int minimo, in
 
 
 // Caracter y validacion (classroom gral)
-
+/*
 int utn_getCharacter(char* pResultado, char* mensaje, char* mensajeError, char minimo, char maximo, int reintentos)
 {
 	int retorno = -1;
@@ -155,7 +155,7 @@ int utn_getCharacter(char* pResultado, char* mensaje, char* mensajeError, char m
 
 	return retorno;
 }
-
+*/
 
 // Puntero y validación
 

@@ -360,7 +360,7 @@ void interfaz()
 						printf("//                                                \n");
 						printf("//                                                \n");
 
-						if( withdrawMenu(&option) == -1 )//SUBMENU EMPLOYEE REMOVAL
+						if( withdrawMenu(&option) == -1 ) //SUBMENU EMPLOYEE REMOVAL
 						{
 							showMessage(erroR);
 							break;
