@@ -4,52 +4,41 @@
 #include <ctype.h>
 #include <conio.h>
 #include "ArrayEmployees.h"
+#include "OtherEmployeesFunctions.h"
 #include "interfaz.h"
 #include "utn.h"
-
-#define msg00 "//      TO MANY RETRIES, ABORTED OPERATION      //"
-#define msg01 "//      EMPLOYEES SUCCESSFULLY INITIALIZED      //"
-#define msg02 "//      EMPLOYEE SUCCESSFULLY REGISTRATED       //"
-#define msg03 "//        EMPLOYEE SUCCESSFULLY MODIFIED        //"
-#define msg04 "//          VALUE SUCCESFULLY MODIFIED          //"
-#define msg05 "//        EMPLOYEE SUCCESSFULLY WITHDRAWN       //"
-
-#define erroR "//  UNEXPECTED ERROR, CONTACT YOUR SYS. ADMIN   //"
-#define err00 "//      THERE ARE NO REGISTERED EMPLOYEES       //"
-#define err01 "//      ERROR WHILE INITIALIZING EMPLOYEES      //"
-#define err02 "//     ERROR WHILE REGISTERING NEW EMPLOYEE     //"
-#define err03 "//        ERROR WHILE MODIFYING EMPLOYEE        //"
-#define err04 "//            VALUE WAS NOT MODIFIED            //"
-#define err05 "//         EMPLOYEE WITHDRAWAL CANCELLED        //"
+#include "defines.h"
 
 #define CANT 1000
 
 void interfaz()
 {
 	//var declarations
-	int option;
-	int nextId = 20210001;
-	int flagEmployee = 0;
-	int auxIndex;
-	int aboveAverageSalaries = 0;
-	float totalSalaries = 0;
-	float averageSalary;
+	int option;							//selectable option in menus
+	int nextId = 20210001;				//numeric self-incremental for employee
+	int flagEmployee = 0;				//register flag of at least one employee
+	int auxIndex;						//auxiliary index to search element by ID
+	int aboveAverageSalaries = 0;		//above average wage accountant
 
-	char confirm;
-	char exit = 'N';
+	float totalSalaries = 0;			//totalSalaries accumulator
+	float averageSalary;				//average wage
 
-	Employee list[CANT];
-	Employee aux;
+	char confirm;						//execution, modifications or cancellation confirmation
+	char exit = 'N';					//exit confirmation
+
+	Employee list[CANT], aux;			//array of employee structures, auxiliary
 
 
 	//employee initialization
 	system("cls");
 	if( !initEmployees(list, CANT) )
 	{
+		//successful initialization message
 		showMessage(msg01);
 	}
 	else
 	{
+		//initialization error message
 		showMessage(err01);
 	}
 	printf("\n");
@@ -61,6 +50,7 @@ void interfaz()
 	{
 		if( mainMenu(&option) == -1 )
 		{
+			//main menu's option pointer error message
 			showMessage(erroR);
 			break;
 		}
@@ -71,53 +61,70 @@ void interfaz()
 
 				system("cls");
 
+				//option title
 				showMessage("//                 NEW EMPLOYEE                 //");
 				printf("//                                              //\n");
 				printf("//  ASSIGNED ID: %d                       //\n", nextId); //new employee id
 
+				//unique primary key mapping
 				aux.id = nextId;
 
+				//name entry
 				if( utn_getName(aux.name, 51, "//                                              //\n//  ENTER NAME: ", "\n//           INVALID CHARACTER, RETRY           //\n", 2) ) //new employee name
 				{
+					//message in case of exceeding retries
 					showMessage(msg00);
 					printf("\n");
 					system("pause");
 					break;
 				}
 
+				//lastname entry
 				if( utn_getName(aux.lastName, 51, "//                                              //\n//  ENTER LASTNAME: ", "\n//           INVALID CHARACTER, RETRY           //\n", 2) ) //new employee lastname
 				{
+					//message in case of exceeding retries
 					showMessage(msg00);
 					printf("\n");
 					system("pause");
 					break;
 				}
 
-				// new employee salary ; minimum wage in Argentina 05/2021 = $21600
+				//salary entry; minimum wage in Argentina 05/2021 = $21600
 				if( utn_getFloat(&aux.salary, "//                                              //\n//  ENTER SALARY ( min $21600 ): $ ", "//\n//          ERROR ENTERING SALARY, RETRY        //\n", 21600, 5000000, 2) )
 				{
+					//message in case of exceeding retries
 					showMessage(msg00);
 					printf("\n");
 					system("pause");
 					break;
 				}
 
+				//sector entry
 				if( utn_getInteger(&aux.sector, "//                                              //\n//  ENTER SECTOR ( 100 ~ 900 ): ", "//\n//          ERROR ENTERING SECTOR, RETRY        //\n", 100, 900, 2) ) //new employee sector
 				{
+					//message in case of exceeding retries
 					showMessage(msg00);
 					printf("\n");
 					system("pause");
 					break;
 				}
 
+
+				//assigns the auxiliary data set to an element in a free index of the array
 				if ( !addEmployee(list, CANT, aux.id, aux.name, aux.lastName, aux.salary, aux.sector) )
 				{
+					//successful registration message
 					showMessage(msg02);
+
+					//flag modification / at least one registered employee
 					flagEmployee = 1;
+
+					//primary key increment
 					nextId++;
 				}
 				else
 				{
+					//registration error message
 					showMessage(err02);
 				}
 
@@ -131,11 +138,13 @@ void interfaz()
 				{
 					system("cls");
 
+					//option title
 					showMessage("//               MODIFY EMPLOYEE                //");
 
-					//fetch employee id
+					//employee id entry
 					if( utn_getInteger(&aux.id, "//                                                \n//  ENTER EMPLOYEE ID: ", "//\n//    ID MUST BE BETWEEN 20210001 - 20211000    //\n", 20210001, 20211000, 2) )
 					{
+						//message in case of exceeding retries
 						showMessage(msg00);
 						printf("\n");
 						system("pause");
@@ -154,13 +163,15 @@ void interfaz()
 							printf("//      ID               NAME             LASTNAME              SALARY        SECTOR 	   \n");
 							printf("//  -----------------------------------------------------------------------------------    \n");
 
+							//data printing of the matching employee
 							showEmployee(list[auxIndex]);
 
 							printf("//                                                \n");
 							printf("//                                                \n");
 
-							if( modifyMenu(&option) == -1 ) //SUBMENU FIELD TO MODIFY
+							if( modifyMenu(&option) == -1 )
 							{
+								//modification menu's option pointer error message
 								showMessage(erroR);
 								break;
 							}
@@ -168,12 +179,15 @@ void interfaz()
 							switch(option)
 							{
 								case 1:		// ------------------------------ SUBMENU OPTION 1 NAME ------------------------------ //
+									//option title
 									showMessage("//             MODIFY EMPLOYEE NAME             //");
 									printf("//                                              //\n");
 									printf("//  CURRENT VALUE: %s                              \n", list[auxIndex].name);
 
+									//input for the new name value
 									if( utn_getName(aux.name, 51, "//                                              //\n//  ENTER NAME: ", "\n//           INVALID CHARACTER, RETRY           //\n", 2) )
 									{
+										//message in case of exceeding retries
 										showMessage(msg00);
 										printf("\n");
 										system("pause");
@@ -190,22 +204,27 @@ void interfaz()
 									if(confirm == 'Y')
 									{
 										strcpy(list[auxIndex].name, aux.name);
+										//modification success message
 										showMessage(msg04);
 									}
 									else
 									{
+										//modification error message
 										showMessage(err04);
 									}
 
 									break;
 
 								case 2:		// ------------------------------ SUBMENU OPTION 2 LASTNAME ------------------------------ //
+									//option title
 									showMessage("//           MODIFY EMPLOYEE LASTNAME           //");
 									printf("//                                              //\n");
 									printf("//  CURRENT VALUE: %s                              \n", list[auxIndex].lastName);
 
+									//input for the new lastname value
 									if( utn_getName(aux.lastName, 51, "//                                              //\n//  ENTER LASTNAME: ", "\n//           INVALID CHARACTER, RETRY           //\n", 2) )
 									{
+										//message in case of exceeding retries
 										showMessage(msg00);
 										printf("\n");
 										break;
@@ -221,22 +240,27 @@ void interfaz()
 									if(confirm == 'Y')
 									{
 										strcpy(list[auxIndex].lastName, aux.lastName);
+										//modification success message
 										showMessage(msg04);
 									}
 									else
 									{
+										//modification error message
 										showMessage(err04);
 									}
 
 									break;
 
 								case 3: 	// ------------------------------ SUBMENU OPTION 3 SALARY ------------------------------ //
+									//option title
 									showMessage("//            MODIFY EMPLOYEE SALARY            //");
 									printf("//                                              //\n");
 									printf("//  CURRENT VALUE: $ %.2f                              \n", list[auxIndex].salary);
 
+									//input for the new salary value
 									if( utn_getFloat(&aux.salary, "//                                              //\n//  ENTER SALARY ( min $21600 ): $ ", "//\n//          ERROR ENTERING SALARY, RETRY        //\n", 21600, 5000000, 2) )
 									{
+										//message in case of exceeding retries
 										showMessage(msg00);
 										printf("\n");
 										system("pause");
@@ -253,22 +277,27 @@ void interfaz()
 									if(confirm == 'Y')
 									{
 										list[auxIndex].salary = aux.salary;
+										//modification success message
 										showMessage(msg04);
 									}
 									else
 									{
+										//modification error message
 										showMessage(err04);
 									}
 
 									break;
 
 								case 4:		// ------------------------------ SUBMENU OPTION 4 SECTOR ------------------------------ //
+									//option title
 									showMessage("//            MODIFY EMPLOYEE SECTOR            //");
 									printf("//                                              //\n");
 									printf("//  CURRENT VALUE: %d                              \n", list[auxIndex].sector);
 
+									//input for the new sector value
 									if( utn_getInteger(&aux.sector, "//                                              //\n//  ENTER SECTOR ( 100 ~ 900 ): ", "//\n//          ERROR ENTERING SECTOR, RETRY        //\n", 100, 900, 2) )
 									{
+										//message in case of exceeding retries
 										showMessage(msg00);
 										printf("\n");
 										system("pause");
@@ -285,10 +314,12 @@ void interfaz()
 									if(confirm == 'Y')
 									{
 										list[auxIndex].sector = aux.sector;
+										//modification success message
 										showMessage(msg04);
 									}
 									else
 									{
+										//modification error message
 										showMessage(err04);
 									}
 
@@ -321,6 +352,7 @@ void interfaz()
 				}
 				else
 				{
+					//registered employee flag error message
 					showMessage(err00);
 				}
 
@@ -334,11 +366,13 @@ void interfaz()
 				{
 					system("cls");
 
+					//option title
 					showMessage("//              WITHDRAW EMPLOYEE               //");
 
-					//fetch employee id
+					//employee id entrt
 					if( utn_getInteger(&aux.id, "//                                                \n//  ENTER EMPLOYEE ID: ", "//\n//         ID MUST BE 20210001 OR HIGER         //\n", 20210001, 30000000, 2) )
 					{
+						//message in case of exceeding retries
 						showMessage(msg00);
 						printf("\n");
 						system("pause");
@@ -355,23 +389,27 @@ void interfaz()
 						printf("//      ID               NAME             LASTNAME              SALARY        SECTOR 	   \n");
 						printf("//  -----------------------------------------------------------------------------------    \n");
 
+						//data printing of the matching employee
 						showEmployee(list[auxIndex]);
 
 						printf("//                                                \n");
 						printf("//                                                \n");
 
-						if( withdrawMenu(&option) == -1 ) //SUBMENU EMPLOYEE REMOVAL
+						if( withdrawMenu(&option) == -1 )
 						{
+							//withdraw menu's option pointer error message
 							showMessage(erroR);
 							break;
 						}
 
 						if( option && !removeEmployee(list, CANT, aux.id) )		// ------- SUBMENU OPTION 1 REMOVE ------- //
 						{
+							//withdrawal success message
 							showMessage(msg05);
 						}
 						else		// ------------------------------ SUBMENU OPTION 0 EXIT ------------------------------ //
 						{
+							//withdrawal error message
 							showMessage(err05);
 						}
 					}
@@ -382,6 +420,7 @@ void interfaz()
 				}
 				else
 				{
+					//registered employee flag error message
 					showMessage(err00);
 				}
 
@@ -397,8 +436,10 @@ void interfaz()
 					{
 						system("cls");
 
-						if( sortMenu(&option) == -1 ) //SUBMENU SORT & PRINT
+						//option title
+						if( sortMenu(&option) == -1 )
 						{
+							//sorting menu's option pointer error message
 							showMessage(erroR);
 							break;
 						}
@@ -435,7 +476,7 @@ void interfaz()
 								break;
 						}
 
-						if(option) //if employees was sorted and printed, calculates and shows total and average salaries
+						if(option) //if employees were sorted and printed, calculates and shows total and average salaries
 						{
 							if( salaries(list, CANT, &totalSalaries, &averageSalary, &aboveAverageSalaries) )
 							{
@@ -466,6 +507,7 @@ void interfaz()
 				}
 				else
 				{
+					//registered employee flag error message
 					showMessage(err00);
 				}
 
