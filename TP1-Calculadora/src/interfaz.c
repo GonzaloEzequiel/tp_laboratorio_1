@@ -96,7 +96,7 @@ void interfaz()
 		case 5:
 			printf("\nDesea salir? s/n\n");
 			scanf("%c", &salir);
-			salir = tolower(getche());
+			salir = tolower(salir);
 			break;
 
 		default://si se elige opcion no listada
@@ -184,7 +184,8 @@ int sobreescribir()
     {
         printf("\n!!ATENCION!! Operando ya ingresado. Desea sobrescribirlo? s/n\n");
         fflush(stdin);
-        respuesta = tolower(getch());
+        scanf("%c", &respuesta);
+        respuesta = tolower(respuesta);
     }
 
     if(respuesta == 's')
@@ -344,8 +345,5 @@ void resultados(float* num1, float* num2, float* resSuma, float* resResta, float
     	printf("//                                          //\n");
     	printf("//////////////////////////////////////////////\n\n");
 
-    printf("PESIONE UNA TECLA PARA VOLVER AL INICIO ");
-    getch();
-
-
+    system("pause");
 }
