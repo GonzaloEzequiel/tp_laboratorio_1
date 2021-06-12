@@ -24,4 +24,6 @@ int employee_getHorasTrabajadas(Employee* this,int* horasTrabajadas);
 int employee_setSueldo(Employee* this,int sueldo);
 int employee_getSueldo(Employee* this,int* sueldo);
 
+int employee_ordenarEmpleados (void* pEmpleado1, void* pEmpleado2);
+
 #endif // employee_H_INCLUDED

@@ -81,52 +81,6 @@ int menuSort(int* option, int* order)
 	return error;
 }
 
-int ordenarPorId(LinkedList* list, int len)
-{
-	int error = -1;
-
-	if(list != NULL && len > 0)
-	{
-		error = 0;
-	}
-
-	return error;
-}
-int ordenarPorNombre(LinkedList* list, int len)
-{
-	int error = -1;
-
-	if(list != NULL && len > 0)
-	{
-		error = 0;
-	}
-
-	return error;
-}
-int ordenarPorHorasTrabajadas(LinkedList* list, int len)
-{
-	int error = -1;
-
-	if(list != NULL && len > 0)
-	{
-		error = 0;
-	}
-
-	return error;
-}
-int ordenarPorSueldo(LinkedList* list, int len)
-{
-	int error = -1;
-
-	if(list != NULL && len > 0)
-	{
-		error = 0;
-	}
-
-	return error;
-}
-
-
 void showMessage(const char message[])
 {
 	printf("//                                                                                  //\n");

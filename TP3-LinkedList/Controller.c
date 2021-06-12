@@ -270,41 +270,11 @@ int controller_sortEmployee(LinkedList* pArrayListEmployee)
 
 	if(pArrayListEmployee != NULL)
 	{
-		int option;
-		int order;
-		int (*ordenarCriterio)(void*, void*);
-
-		if( menuSort(&option, &order) )
+		if(!ll_sort(pArrayListEmployee, employee_ordenarEmpleados, 1))
 		{
-			showMessage(ERR00);
+			showMessage("//                    Los empleados has sido ordenados por nombre                   //");
+			error = 0;
 		}
-
-		switch(option)
-		{
-		case 1:
-			ordenarCriterio = ordenarPorId;
-			break;
-		case 2:
-			ordenarCriterio = ordenarPorNombre;
-			break;
-		case 3:
-			ordenarCriterio = ordenarPorHorasTrabajadas;
-			break;
-		case 4:
-			ordenarCriterio = ordenarPorSueldo;
-			break;
-		default:
-			break;
-		}
-
-		if(option != 5)
-		{
-			ll_sort(pArrayListEmployee, ordenarCriterio, order);
-			printf("//                              Se reordenaron empleados                            //");
-		}
-
-		system("pause");
-		error = 0;
 	}
 
     return error;
@@ -406,7 +376,6 @@ int controller_findEmployeeById(LinkedList* this, int id)
 
 	if(this != NULL)
 	{
-		//int auxID;
 		int len = ll_len(this);
 		Employee* aux = NULL;
 
@@ -424,3 +393,4 @@ int controller_findEmployeeById(LinkedList* this, int id)
 
 	return index;
 }
+

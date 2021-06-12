@@ -10,10 +10,6 @@
 
 int menu(int* option);
 int menuSort(int* option, int* order);
-int ordenarPorId(LinkedList* list, int len);
-int ordenarPorNombre(LinkedList* list, int len);
-int ordenarPorHorasTrabajadas(LinkedList* list, int len);
-int ordenarPorSueldo(LinkedList* list, int len);
 void showMessage(const char message[]);
 
 
