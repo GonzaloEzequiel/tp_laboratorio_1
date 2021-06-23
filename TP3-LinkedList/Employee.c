@@ -216,7 +216,7 @@ int employee_getSueldo(Employee* this,int* sueldo)
 	return error;
 }
 
-int employee_ordenarEmpleados (void* pEmpleado1, void* pEmpleado2)
+int employee_ordenarEmpleados(void* pEmpleado1, void* pEmpleado2)
 {
 	int retorno = strcmp( (*(Employee*)pEmpleado1).nombre , (*(Employee*)pEmpleado2).nombre );
 

@@ -124,7 +124,7 @@ int utn_getFloat(float* num, char mensaje[], char mensajeError[], int minimo, in
 
 
 // Caracter y validacion (classroom gral)
-/*
+
 int utn_getCharacter(char* pResultado, char* mensaje, char* mensajeError, char minimo, char maximo, int reintentos)
 {
 	int retorno = -1;
@@ -137,6 +137,8 @@ int utn_getCharacter(char* pResultado, char* mensaje, char* mensajeError, char m
 			printf("%s", mensaje);
 			fflush(stdin);
 			scanf("%c", &buffer);
+
+			buffer = toupper(buffer);
 
 			if(buffer >= minimo && buffer <= maximo)
 			{
@@ -155,7 +157,6 @@ int utn_getCharacter(char* pResultado, char* mensaje, char* mensajeError, char m
 
 	return retorno;
 }
-*/
 
 // Puntero y validación
 
@@ -204,6 +205,56 @@ int utn_getName(char* vec, int size, char* mensaje, char* mensajeError, int rein
 
 		}while(reintentos>=0);
 
+	}
+
+	return error;
+}
+
+int utn_getDate(int* day, int* month, int* year, char* mensaje, char* mensajeError, int reintentos)
+{
+	int error = -1;
+	int clear;
+
+	char bufferDay[2];
+	char bufferMonth[2];
+	char bufferYear[4];
+
+	if(day != NULL && month != NULL && year != NULL && mensaje != NULL && mensajeError != NULL)
+	{
+		do
+		{
+			clear = 0;
+			printf("%s dd/mm/aaaa", mensaje);
+			scanf("%s/%s/%s", bufferDay, bufferMonth, bufferYear);
+
+			if( 
+				(bufferDay[0] >= 48 && bufferDay[0] <= 51) &&
+				(bufferDay[1] >= 48 && bufferDay[1] <= 57) &&
+				(bufferMonth[0] >= 48 &&  bufferMonth[0] <= 57) &&
+				(bufferMonth[1] == 48 || bufferMonth[1] == 49) &&
+				bufferYear[0] == 50 &&
+				(bufferYear[1] >= 48 && bufferYear[1] <= 57) &&
+				(bufferYear[2] >= 48 && bufferYear[2] <= 57) &&
+				(bufferYear[3] >= 48 && bufferYear[3] <= 57) 
+				)
+			{
+				clear = 1;
+			}
+
+			if(clear)
+			{
+				*day = atoi(bufferDay);
+				*month = atoi(bufferMonth);
+				*year = atoi(nufferYear);
+			}
+			else
+			{
+				reintentos--;
+			}
+
+		}while(reintentos >= 0);		
+
+		error = 0;
 	}
 
 	return error;
