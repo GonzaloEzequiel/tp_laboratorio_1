@@ -575,3 +575,36 @@ int ll_sort(LinkedList* this, int (*pFunc)(void* ,void*), int order)
     return returnAux;
 }
 
+//Desarrollar la funcion ll_map en la bilbioteca linkedlist, la cual recibirla la lista y una funcion. 
+//La funcion ejecutara la funcion recibida como parametro por cada item de la liusta, 
+//de este modo se realizara un aumento de sueldo del 10% a aquellos empleados que ganan mas de $20000
+
+/** \brief Ejecuta una funcion pasada por referencia a cada elemento de la lista de elementos
+ *
+ * \param this LinkedList* Puntero a la lista de elmentos
+ * \param (*pFunc)(void*)* int Puntero a la función a ejecutar
+ *
+ * \return int Retorna  (-1) Error: si el puntero a la lista es NULL
+                        ( 0) si No hubo problemas
+ *
+ */
+int ll_map(LinkedList* this,int (*pFunc)(void*))
+{
+	int error = -1;
+	
+	void* aux = NULL;
+	
+	if(this != NULL && pFunc != NULL)
+	{
+		error = 0;
+		for(int i=0; i<ll_len(this); i++)
+		{
+			aux = ll_get(this, i);
+			pFunc(aux);
+		}
+	}	
+	
+    return error;
+}
+
+
